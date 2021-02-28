@@ -142,7 +142,7 @@ class PageRank:
         print(r)
             
         # for j in range(self.s.n):
-        #     p = self.s.matVectProd(trans, p, self.s.n)
+        #     p = self.   s.matVectProd(trans, p, self.s.n)
         #     for i in range(self.s.n):
         #         for k in range(self.s.n):
         #             if i == k:

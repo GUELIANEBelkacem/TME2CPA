@@ -64,15 +64,11 @@ class Support:
         Q = np.zeros(n)
         for i in range(n):
             for j in range (n):
-                Q[i] = Q[i] + T[i][j]*P[j]
+                Q[i] = Q[i] + (T[i][j])*(P[j])
         return Q
-    def norm(self,P,n):
-        s=0
-        for i in range(n):
-            s = s+P[i]
-        return s
+
     def normalize(self,P,n):
-        v = (1-self.norm(P,n))/n
+        v = (1-sum(P))/n
         Q = np.zeros(n)
         for i in range(n):
             Q[i]=P[i]+v
@@ -101,12 +97,12 @@ class Support:
             if(u != e.x):
                 u = e.x
                 d = 1/(adjarray[u].getDegree())
-            T[e.x][e.y] = d
+            T[e.y][e.x] = d
         f = 1/self.n
         for i in range(self.n):
             if(adjarray[i].getDegree()==0):
                 for j in range(self.n):
-                    T[adjarray[i].idn][j]=f
+                    T[j][adjarray[i].idn]=f
                     
         return T
         
@@ -117,4 +113,58 @@ class Support:
                 s = s+ str(T[i][j])+" "
             s = s+ "\n"
         print(s)
+
+class PageRank:
+    def __init__(self, s):
+        self.s = Support(s)
+    
+    def powerIteration(self, alpha, t):
+        trans = self.s.getTMat()
+        p = np.zeros(self.s.n)
+        v = 1/self.s.n
+        for i in range(self.s.n):
+            p[i] = v
             
+        for k in range(t):
+            p = self.s.matVectProd(trans, p, self.s.n)
+            for i in range(self.s.n):
+                p[i] = p[i]*(1-alpha) + alpha*v
+            p = self.s.normalize(p,self.s.n)
+        return p
+    
+    def printcheck(self):
+        r = np.zeros(20)
+        for e in self.s.edges:
+            r[e.y]=r[e.y]+1
+        s = sum(r)
+        for i in range(20):
+            r[i] = r[i]/s
+        print(r)
+            
+        # for j in range(self.s.n):
+        #     p = self.s.matVectProd(trans, p, self.s.n)
+        #     for i in range(self.s.n):
+        #         for k in range(self.s.n):
+        #             if i == k:
+        #                 p[i][k] = (1 - alpha) * p[i][k] + alpha
+        #             else:
+        #                 p[i][k] = (1 - alpha) * p[i][k]
+        #     p = self.s.normalize(p)
+        # return p
+    
+    
+    # def powerIteration(self, g, p0, alpha, t):
+    #     trans = transitionMatri(g)
+    #     p = [[0 for i in range(len(g))] for j in range(len(g))]
+    #     for i in range(len(g)):
+    #         p[i][i] = 1/len(g)
+    #     for j in range(len(g)):
+    #         p = matVectProd(trans, p)
+    #         for i in range(len(g)):
+    #             for k in range(len(g)):
+    #                 if i == k:
+    #                     p[i][k] = (1 - alpha) * p[i][k] + alpha * p0[i][k]
+    #                 else:
+    #                     p[i][k] = (1 - alpha) * p[i][k]
+    #         p = normalize2(p)
+    #     return p

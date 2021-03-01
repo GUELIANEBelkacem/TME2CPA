@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class Edge:
@@ -42,6 +43,35 @@ class MyIO:
         print("number of edges: " + str(self.nedges(listy)))
         print("number of nodes: " + str(self.nnodes(listy))+"\n\n")
         return listy
+    
+    
+    def makeInputArray(self, s, n):
+        listy = []
+        res = np.zeros(n)
+        f = open(s, "r")
+        lines = f.readlines()
+        for line in lines:
+            temp = line.split()
+            listy.append(temp[1])
+        f.close()
+        for i in range(n):
+             res[i] = listy.count(i)           
+        return res
+    
+    def makeOutputArray(self, s, n):
+        listy = []
+        res = np.zeros(n)
+        f = open(s, "r")
+        lines = f.readlines()
+        for line in lines:
+            temp = line.split()
+            listy.append(temp[0])
+        f.close()
+        for i in range(n):
+             res[i] = listy.count(i) 
+        return res
+    
+    
     def nedges(self,listy):
         return len(listy)
     def nnodes(self,listy):
@@ -132,6 +162,27 @@ class PageRank:
             p = self.s.normalize(p,self.s.n)
         return p
     
+    
+    
+    def rootedPowerIteration(self, p0, alpha, t):
+        trans = self.s.getTMat()
+        p = np.zeros(self.s.n)
+        v = 1/self.s.n
+        for i in range(self.s.n):
+            p[i] = v
+            
+        for k in range(t):
+            p = self.s.matVectProd(trans, p, self.s.n)
+            for i in range(self.s.n):
+                p[i] = p[i]*(1-alpha) + alpha*p0[i]
+            p = self.s.normalize(p,self.s.n)
+        return p
+    
+    
+    
+    
+    
+    
     def printcheck(self):
         r = np.zeros(20)
         for e in self.s.edges:
@@ -140,6 +191,25 @@ class PageRank:
         for i in range(20):
             r[i] = r[i]/s
         print(r)
+        
+        
+class PlotDrawer:
+    
+    def __init__(self, s):
+        io = MyIO()
+        self.pgrk = PageRank(s)
+        self.inputArr = io.makeInputArray(s, self.pgrk.s.n)
+        self.outputArr = io.makeOutputArray(s, self.pgrk.s.n)
+        
+        
+    def drawInplot(self):
+        x = self.pgrk.powerIteration(0.15, 1000)
+        y = self.inputArr
+        plt.scatter(x, y)
+        plt.show
+        
+        
+    
             
         # for j in range(self.s.n):
         #     p = self.   s.matVectProd(trans, p, self.s.n)

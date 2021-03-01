@@ -12,7 +12,8 @@ from tme2 import *
 # print(Q)
 # T = s.getTMat()
 # s.printMat(T)
-
+pd = PlotDrawer("fucklinks.txt")
+pd.drawInplot()
 pr = PageRank("fucklinks.txt")
 p = pr.powerIteration(0.2, 10000)
 print(p)

@@ -12,10 +12,15 @@ from tme2 import *
 # print(Q)
 # T = s.getTMat()
 # s.printMat(T)
+
+# pr = PageRank("fucklinks.txt")
+# p = pr.powerIteration(0.2, 10000)
+# print(p)
+# p = pr.rootedPowerIteration(0.2, 10000, 19)
+# print(p)
+# print(sum(p))
+# pr.printcheck()
+
+
 pd = PlotDrawer("fucklinks.txt")
 pd.drawInplot()
-pr = PageRank("fucklinks.txt")
-p = pr.powerIteration(0.2, 10000)
-print(p)
-print(sum(p))
-pr.printcheck()

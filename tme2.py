@@ -164,9 +164,11 @@ class PageRank:
     
     
     
-    def rootedPowerIteration(self, p0, alpha, t):
+    def rootedPowerIteration(self, alpha, t, p0p):
         trans = self.s.getTMat()
         p = np.zeros(self.s.n)
+        p0 = np.zeros(self.s.n)
+        p0[p0p] = 1
         v = 1/self.s.n
         for i in range(self.s.n):
             p[i] = v
@@ -203,7 +205,7 @@ class PlotDrawer:
         
         
     def drawInplot(self):
-        x = self.pgrk.powerIteration(0.15, 1000)
+        x = self.pgrk.powerIteration(0.15, 100)
         y = self.inputArr
         plt.scatter(x, y)
         plt.show
@@ -211,30 +213,3 @@ class PlotDrawer:
         
     
             
-        # for j in range(self.s.n):
-        #     p = self.   s.matVectProd(trans, p, self.s.n)
-        #     for i in range(self.s.n):
-        #         for k in range(self.s.n):
-        #             if i == k:
-        #                 p[i][k] = (1 - alpha) * p[i][k] + alpha
-        #             else:
-        #                 p[i][k] = (1 - alpha) * p[i][k]
-        #     p = self.s.normalize(p)
-        # return p
-    
-    
-    # def powerIteration(self, g, p0, alpha, t):
-    #     trans = transitionMatri(g)
-    #     p = [[0 for i in range(len(g))] for j in range(len(g))]
-    #     for i in range(len(g)):
-    #         p[i][i] = 1/len(g)
-    #     for j in range(len(g)):
-    #         p = matVectProd(trans, p)
-    #         for i in range(len(g)):
-    #             for k in range(len(g)):
-    #                 if i == k:
-    #                     p[i][k] = (1 - alpha) * p[i][k] + alpha * p0[i][k]
-    #                 else:
-    #                     p[i][k] = (1 - alpha) * p[i][k]
-    #         p = normalize2(p)
-    #     return p

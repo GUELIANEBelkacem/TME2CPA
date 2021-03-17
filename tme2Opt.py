@@ -157,9 +157,11 @@ class Support:
         Q = [ 0 for i in range(n) ]
 
         for i in range(n):
+            if(i%10000==0):
+                    print(i)
             if (a[i].d == 0):
                 for j in range(n):
-                    Q[j] = Q[j] + (T[j])*(P[i])
+                    Q[j] += (T[j])*(P[i])
             
             else:
                 for aa in a[i].neighbours:
@@ -218,7 +220,7 @@ class PageRank:
         for k in range(t):
             p = s.matVectProd(trans, p, a, n)
             for i in range(n):
-                
+
                 p[i] = p[i]*(1-alpha) + alpha*v
             p = s.normalize(p, n)
         return p
@@ -246,7 +248,11 @@ class PageRank:
                 p[i] = p[i]*(1-alpha) + alpha*p0[i]
             p = s.normalize(p,n)
         return p
-    
+    def printVect(self, p, n):
+        f = open("cc.txt", "w")
+        for i in range(n):
+            f.write(str(p[i])+"\n")
+        f.close()
 class PlotDrawer:
     """a class for drawing the graphs""" 
     def __init__(self, a, e, p):
@@ -276,7 +282,7 @@ class PlotDrawer:
         plt.show
         plt.figure()
     def drawAlphaplot(self, a, alpha):
-        y = self.pgrk.powerIteration(a, alpha, 2) 
+        y = self.pgrk.powerIteration(a, alpha, 100) 
         plt.scatter(self.x, y, label=str(alpha))
         plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc='lower left',
            ncol=2, mode="expand", borderaxespad=0.)
@@ -301,6 +307,6 @@ class PlotDrawer:
              resin[i] = inp.count(i)
         return [resin, resout]
 
-            
+    
             
     

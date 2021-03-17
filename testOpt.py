@@ -12,7 +12,7 @@ from pympler import asizeof
 import heapq
 #creating EdgeList and AdjArray (also AdjMatrix but it's not scalable so it's commented out)
 start = time.time()
-g = Graph("amazon.txt")
+g = Graph("links.txt")
 l = g.mkEdgeList()
 #m = g.mkAdjMatrix(l)
 a = g.mkAdjarray2(l)
@@ -29,6 +29,7 @@ p = pr.powerIteration(a , 0.15, 100)
 print("page rank time is: "+ str(end-start)+"\n")
 end = time.time()
 
+pr.printVect(p, len(p))
 maxesid=[]
 minsid=[]
 maxes = heapq.nlargest(5, p)
